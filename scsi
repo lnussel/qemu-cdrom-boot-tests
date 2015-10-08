@@ -1,0 +1,15 @@
+#!/bin/bash
+
+. common
+
+qemu \
+    -device lsi,id=scsi \
+    -drive file="$img",cache=unsafe,if=none,id=hd1 \
+    -device scsi-hd,drive=hd1 \
+    -drive file=$iso,if=none,id=cd0,format=raw,media=cdrom,readonly=on \
+    -device scsi-cd,drive=cd0 \
+    -drive file=$iso1,if=none,id=cd1,format=raw,media=cdrom,readonly=on \
+    -device scsi-cd,drive=cd1 \
+    -drive file=$iso2,if=none,id=cd2,format=raw,media=cdrom,readonly=on \
+    -device scsi-cd,drive=cd2 \
+    "$@"

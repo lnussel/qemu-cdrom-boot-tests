@@ -1,0 +1,17 @@
+#!/bin/bash
+
+. common
+
+qemu \
+    -drive file="$img",cache=unsafe,if=none,id=hd1 \
+    -device ide-hd,drive=hd1 \
+    -device piix3-ide,bus=pci.0,id=ide1 \
+    -device piix3-ide,bus=pci.0,id=ide2 \
+    -device piix3-ide,bus=pci.0,id=ide99 \
+    -drive file=$iso,if=none,id=cd0,format=raw,media=cdrom,readonly=on \
+    -device ide-cd,drive=cd0,bus=ide99.0 \
+    -drive file=$iso1,if=none,id=cd1,format=raw,media=cdrom,readonly=on \
+    -device ide-cd,drive=cd1,bus=ide1.1 \
+    -drive file=$iso2,if=none,id=cd2,format=raw,media=cdrom,readonly=on \
+    -device ide-cd,drive=cd2,bus=ide1.0 \
+    "$@"

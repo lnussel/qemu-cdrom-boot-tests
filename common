@@ -1,0 +1,30 @@
+#!/bin/bash
+
+img=img.qcow2
+d=/var/lib/openqa/factory/iso/
+iso=$d/SLE-12-SP1-Server-DVD-x86_64-Build2774-Media1.iso
+iso=$d/openSUSE-Leap-42.1-DVD-x86_64-Build0207-Media.iso
+iso1=$d/SLE-12-SP1-SDK-DVD-x86_64-Build0954-Media1.iso
+iso2=$d/SLE-12-SP1-HA-DVD-x86_64-Build0269-Media1.iso
+
+if [ -n "$uefi" ]; then
+biosdir=/usr/share/qemu/
+bios=(-drive if=pflash,format=raw,readonly,file=$biosdir/ovmf-x86_64-ms-code.bin
+	-drive if=pflash,format=raw,file=$biosdir/ovmf-x86_64-ms-vars.bin,snapshot=on
+	-debugcon file:debug.log -global isa-debugcon.iobase=0x402
+	)
+#bios=(-bios $biosdir/ovmf-x86_64-ms.bin)
+fi
+
+qemu()
+{
+    set -x
+    [ -e "$img" ] || qemu-img create -f qcow2 "$img" 10G
+    exec qemu-system-x86_64 -enable-kvm \
+	-m 1024 \
+	-monitor stdio \
+	"${bios[@]}" \
+	"$@"
+}
+
+# vim: sw=4 et

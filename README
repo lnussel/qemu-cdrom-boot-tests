@@ -1,0 +1,10 @@
+		UEFI	Legacy
+IDE		yes	yes
+SCSI		no	yes
+virtio-blk	yes     no
+virtio-scsi	yes¹	yes
+
+[1] if the ovmf bios is loaded via -bios instead of -drive, the
+first cdrom needs snapshot=on to boot if the hard disk image is
+empty. This is a workaround as ovmf needs a place to store the
+NVvars file.
