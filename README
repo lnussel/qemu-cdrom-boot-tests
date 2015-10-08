@@ -1,8 +1,8 @@
-		UEFI	Legacy
-IDE		yes	yes
-SCSI		no	yes
-virtio-blk	yes     no
-virtio-scsi	yes¹	yes
+		UEFI	Legacy	aarch64
+IDE		yes	yes	no
+SCSI		no	yes	no
+virtio-blk	yes     no	yes
+virtio-scsi	yes¹	yes	yes
 
 [1] if the ovmf bios is loaded via -bios instead of -drive, the
 first cdrom needs snapshot=on to boot if the hard disk image is
